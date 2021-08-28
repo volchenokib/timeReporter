@@ -2,33 +2,19 @@
 	<v-app>
 		<v-app-bar app color="primary" dark>
 			<div class="d-flex align-center">
-				<!-- <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        /> -->
-				<h1>Time Reporter</h1>
+				<v-icon class="pr-2 d-none d-md-flex" large>mdi-calendar-clock</v-icon>
+				<v-icon class="pr-2 d-flex d-md-none">mdi-calendar-clock</v-icon>
+				<h1 class="font-weight-light text-h6 text-md-h4">Time Reporter</h1>
 			</div>
 
 			<v-spacer></v-spacer>
-			<div class="mr-4">
+
+			<div class="mr-4" v-if="isAuth">
 				<v-icon class="pr-1">mdi-account</v-icon>
 				<span>User Name</span>
 			</div>
 
-			<v-btn text @click="logout">
+			<v-btn text @click="logout" v-if="isAuth">
 				<span class="mr-2">Logout</span>
 				<v-icon>mdi-exit-to-app</v-icon>
 			</v-btn>
@@ -44,13 +30,18 @@
 export default {
 	name: "App",
 
-	data: () => ({
-		//
-	}),
+	data: () => ({}),
+
+	computed: {
+		isAuth() {
+			return this.$store.state.isAuth;
+		}
+	},
 
 	methods: {
 		logout() {
 			this.$router.replace("/");
+			this.$store.commit("SET_AUTH", false);
 		}
 	}
 };

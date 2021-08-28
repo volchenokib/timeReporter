@@ -1,17 +1,27 @@
 <template>
 	<v-container>
-		<v-row>
-			<v-col cols="5">
+		<v-row justify="center">
+			<v-col cols="12" md="4">
 				<v-card class="pa-4 mb-12">
-					<v-form ref="form" v-model="valid" lazy-validation>
+					<v-form
+						class="text-right"
+						ref="form"
+						v-model="valid"
+						lazy-validation
+					>
+						<date-picker />
+
 						<v-select
-							v-model="select"
+							v-model="weeklyHours"
 							:items="items"
+							item-text="label"
+							item-value="value"
 							:rules="[(v) => !!v || 'Hours is required']"
 							label="weekly hours"
-							dense
+							return-object
 							outlined
 							required
+							dense
 						></v-select>
 
 						<v-btn :disabled="!valid" @click="validate">
@@ -21,7 +31,7 @@
 				</v-card>
 			</v-col>
 
-			<v-col cols="6">
+			<v-col cols="12" md="6">
 				<v-simple-table class="elevation-2">
 					<template v-slot:default>
 						<thead>
@@ -43,6 +53,14 @@
 								<td>{{ item.date }}</td>
 								<td>{{ item.hours }}</td>
 							</tr>
+							<tr
+								class="total-row error"
+								:class="{ success: isPlanCompleted }"
+							>
+								<td>Total</td>
+								<td></td>
+								<td>{{ total }}</td>
+							</tr>
 						</tbody>
 					</template>
 				</v-simple-table>
@@ -52,47 +70,52 @@
 </template>
 
 <script>
+import DatePicker from "@/components/DatePicker";
 export default {
+	components: { DatePicker },
 	data() {
 		return {
 			valid: true,
-			select: "10 hours",
-			items: ["10 hours", "20 hours", "30 hours", "40 hours"],
+			weeklyHours: { value: 40, label: "40 hours" },
+			items: [
+				{ value: 20, label: "20 hours" },
+				{ value: 40, label: "40 hours" }
+			],
 			hours: [
 				{
 					day: "Monday",
 					date: "10.05.2001",
-					hours: 10
+					hours: "8"
 				},
 				{
 					day: "Tuesday",
 					date: "10.05.2001",
-					hours: 20
+					hours: "8"
 				},
 				{
 					day: "Wednesday",
 					date: "10.05.2001",
-					hours: 30
+					hours: "8"
 				},
 				{
 					day: "Thursday",
 					date: "10.05.2001",
-					hours: 40
+					hours: "8"
 				},
 				{
 					day: "Friday",
 					date: "10.05.2001",
-					hours: 20
+					hours: "7"
 				},
 				{
 					day: "Saturday",
 					date: "10.05.2001",
-					hours: 30
+					hours: "0"
 				},
 				{
 					day: "Sunday",
 					date: "10.05.2001",
-					hours: 20
+					hours: "0"
 				}
 			]
 		};
@@ -112,6 +135,12 @@ export default {
 				case "xl":
 					return "30%";
 			}
+		},
+		total() {
+			return 39;
+		},
+		isPlanCompleted() {
+			return this.weeklyHours.value <= this.total ? true : false;
 		}
 	},
 
@@ -122,3 +151,10 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+.total-row {
+	background: #eeeeee;
+	color: white;
+}
+</style>

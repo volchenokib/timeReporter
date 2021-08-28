@@ -5,7 +5,7 @@
 				<v-flex xs12 sm8 md4>
 					<v-card class="elevation-12">
 						<v-toolbar dark color="primary">
-							<v-toolbar-title>Login form</v-toolbar-title>
+							<v-toolbar-title>Login</v-toolbar-title>
 						</v-toolbar>
 						<v-card-text>
 							<v-form>
@@ -54,7 +54,8 @@ export default {
 
 	methods: {
 		login() {
-			this.$router.replace("/TimeReport");
+			this.$router.replace("/report");
+			this.$store.commit("SET_AUTH", true);
 		}
 	}
 };

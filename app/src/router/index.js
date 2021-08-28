@@ -11,13 +11,10 @@ const routes = [
 		component: Home
 	},
 	{
-		path: "/TimeReport",
+		path: "/report",
 		name: "TimeReport",
-		// route level code-splitting
-		// this generates a separate chunk (TimeReport.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
 		component: () =>
-			import(/* webpackChunkName: "TimeReport" */ "../views/TimeReport.vue")
+			import(/* webpackChunkName: "report" */ "../views/TimeReport.vue")
 	}
 ];
 
